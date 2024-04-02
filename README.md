@@ -15,5 +15,9 @@
 - Create a app.ts file and index.html file
 - Install lite server: *npm install lite-server --save-dev* and add *"start": "lite-server"* to the script in package.json
 - Create a git ignore file: .gitignore and add node_modules and *.js in the file
+- Setup the index.html file using *html*, chose the html 5, then add a script to point to the app.js that i will be created when app.ts compiles.
+- On another terminal, use: *tsc --w* to put Project file in watch mode
+- On another terminal, use: *npm start* to launch the Project on a web browser. Use the URL address provided e.g. http://localhost:3000
+- 
 
 
