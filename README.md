@@ -12,7 +12,8 @@
 - Install typescript globally: *npm install -g typescript* (for windows users)
 - Initialize node in your project: *npm init -y*
 - Initialize typescript to compile the entire project folder:  *tsc --init*
-- Create a git ignore file: .gitignore and add node_modules and *.js in the file
 - Create a app.ts file and index.html file
+- Install lite server: *npm install lite-server --save-dev* and add *"start": "lite-server"* to the script in package.json
+- Create a git ignore file: .gitignore and add node_modules and *.js in the file
 
 
