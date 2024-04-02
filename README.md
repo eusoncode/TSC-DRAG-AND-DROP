@@ -18,6 +18,9 @@
 - Setup the index.html file using *html*, chose the html 5, then add a script to point to the app.js that i will be created when app.ts compiles.
 - On another terminal, use: *tsc --w* to put Project file in watch mode
 - On another terminal, use: *npm start* to launch the Project on a web browser. Use the URL address provided e.g. http://localhost:3000
-- 
+- Create a *src* & *dist* folder
+- Tweak tsconfig file to *outDir* option to and point to the dist folder.
+- Enable the *rootDir* option and point to the src folder
+- Enable the *noEmitOnError*
 
 
