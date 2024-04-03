@@ -37,6 +37,13 @@ class ProjectInput {
     this.attach(); // Render form on the div html
   }
 
+  // Clear inputs after submission
+  private clearInputs() {
+    this.titleInputElement.value = '';
+    this.descriptionInputElement.value = '';
+    this.peopleInputElement.value = '';
+  }
+
   // Fetching User Input
   private gatherUserInput(): [string, string, number] | void { 
     const enteredTitle = this.titleInputElement.value;
@@ -57,12 +64,14 @@ class ProjectInput {
 
   // Action when button submit is clicked
   @autobind
-  private submitHandler(e:Event) {
-    e.preventDefault();
+  private submitHandler(event:Event) {
+    event.preventDefault();
     const userInput = this.gatherUserInput();
+    
     if (Array.isArray(userInput)) {
       const [title, desc, people] = userInput;
-      console.log(title, desc, people);  
+      console.log(title, desc, people); 
+      this.clearInputs();
     }
   }
 
