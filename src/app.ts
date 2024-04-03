@@ -20,9 +20,22 @@ class ProjectInput {
     this.descriptionInputElement = this.element.querySelector('#description')! as HTMLInputElement;
     this.peopleInputElement= this.element.querySelector('#people')! as HTMLInputElement;
 
+    this.configure(); // Trigger the event listener for the submit button
     this.attach(); // Render form on the div html
   }
 
+  // Action when button submit is clicked
+  private submitHandler(e:Event) {
+    e.preventDefault();
+    console.log(this.titleInputElement.value);    
+  }
+
+  // Listen for button submit event
+  private configure() {
+    this.element.addEventListener('submit', this.submitHandler.bind(this))
+  }
+
+  // Render to the Div html
   private attach() {
     this.hostElement.insertAdjacentElement('afterbegin', this.element);
   }
