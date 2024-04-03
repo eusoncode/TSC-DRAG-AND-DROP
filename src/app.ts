@@ -10,6 +10,7 @@ class ProjectInput {
 
     const importedNode = document.importNode(this.templateElement.content, true); //Import the input template
     this.element = importedNode.firstElementChild as HTMLFormElement; // Access the form in the input template
+    this.element.id = 'user-input'; // Style the form before rendering
     this.attach(); // Render form on the div html
   }
 
