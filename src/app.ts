@@ -1,4 +1,17 @@
-//Access to the form template
+// Autobind decorator - function decoration
+function autobind(_:any, _2: string, descriptor: PropertyDescriptor) {
+  const originalMethod = descriptor.value;  
+  const adjDescriptor: PropertyDescriptor = {
+    configurable: true,
+    get() {
+      const boundFn = originalMethod.bind(this);
+      return boundFn;
+    }
+  };
+  return adjDescriptor;
+}
+
+//Project Input class
 class ProjectInput {
   //Define the variables
   templateElement: HTMLTemplateElement;
@@ -25,6 +38,7 @@ class ProjectInput {
   }
 
   // Action when button submit is clicked
+  @autobind
   private submitHandler(e:Event) {
     e.preventDefault();
     console.log(this.titleInputElement.value);    
@@ -32,7 +46,7 @@ class ProjectInput {
 
   // Listen for button submit event
   private configure() {
-    this.element.addEventListener('submit', this.submitHandler.bind(this))
+    this.element.addEventListener('submit', this.submitHandler)
   }
 
   // Render to the Div html
