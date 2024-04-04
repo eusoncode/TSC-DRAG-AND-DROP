@@ -43,7 +43,38 @@ function autobind(_:any, _2: string, descriptor: PropertyDescriptor) {
   return adjDescriptor;
 }
 
-//Project Input class
+// ProjectList class
+class ProjectList {
+  //Define the variables
+  templateElement: HTMLTemplateElement;
+  hostElement: HTMLDivElement;
+  element: HTMLElement;
+
+  constructor(private type: 'active' | 'finished') {
+    this.templateElement = document.getElementById('project-list')! as HTMLTemplateElement; //Access the project list template html
+    this.hostElement = document.getElementById('app')! as HTMLDivElement; //Access the div html
+    
+    const importedNode = document.importNode(this.templateElement.content, true); //Import the project list template
+    this.element = importedNode.firstElementChild as HTMLElement; // Access the section in the input template
+    this.element.id = `${this.type}-projects`; // Style the form before rendering
+    this.attach();
+    this.renderContent();
+  }
+
+  // Render content to the project list template
+  private renderContent() {
+    const listId = `${this.type}-projects-list`;
+    this.element.querySelector('ul')!.id = listId;
+    this.element.querySelector('h2')!.textContent = this.type.toUpperCase() + ' PROJECTS';
+  }
+
+  // Render to the Div html
+  private attach() {
+    this.hostElement.insertAdjacentElement('beforeend', this.element);
+  }
+}
+
+// Project Input class
 class ProjectInput {
   //Define the variables
   templateElement: HTMLTemplateElement;
@@ -135,4 +166,6 @@ class ProjectInput {
   }
 }
 
-const prjInput = new ProjectInput(); //Render Project inputs
+const prjInput = new ProjectInput(); //Render project inputs
+const activePrjList = new ProjectList('active'); // Render active project lists
+const finishedPrjList = new ProjectList('finished'); // Render finished project lists
