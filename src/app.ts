@@ -1,3 +1,41 @@
+// Project state management
+class ProjectState {
+  private listeners: any[] = []; // List of listeners
+  private projects: any[] = []; // List of projects
+
+  // Make an instance of the Project state class so that only one instance is instantiated
+  private static instance: ProjectState;
+  private constructor() {};
+  static getInstance() {
+    if (this.instance) {
+      return this.instance;
+    }
+    this.instance = new ProjectState;
+    return this.instance;
+  }
+
+  addListener(listenerFn:Function) {
+    this.listeners.push(listenerFn)
+  };
+
+  addProject(title: string, description: string, numOfPeople:number) {
+    const newProject = {
+      id: Math.random().toString(),
+      title:title,
+      description:description,
+      people:numOfPeople
+    }
+    this.projects.push(newProject);
+    for (const listenerFn of this.listeners) {
+      listenerFn(this.projects.slice()); // Call listeners when something changes in project list
+    }
+  };
+}
+
+const projectState = ProjectState.getInstance(); // Instantiate the Project state management to be used by other Project classes
+
+
+
 // Re-usable Validation
 interface Validatable {
   value: string | number;
@@ -49,23 +87,41 @@ class ProjectList {
   templateElement: HTMLTemplateElement;
   hostElement: HTMLDivElement;
   element: HTMLElement;
+  assignedProjects: any[];
 
   constructor(private type: 'active' | 'finished') {
     this.templateElement = document.getElementById('project-list')! as HTMLTemplateElement; //Access the project list template html
     this.hostElement = document.getElementById('app')! as HTMLDivElement; //Access the div html
-    
+    this.assignedProjects = [];
+
     const importedNode = document.importNode(this.templateElement.content, true); //Import the project list template
     this.element = importedNode.firstElementChild as HTMLElement; // Access the section in the input template
     this.element.id = `${this.type}-projects`; // Style the form before rendering
+
+    projectState.addListener((projects: any[]) => {
+      this.assignedProjects = projects;
+      this.renderProjects();
+    });
+
     this.attach();
     this.renderContent();
+  }
+
+  // 
+  private renderProjects() {
+    const listEl = document.getElementById(`${this.type}-projects-list`)! as HTMLElement;
+    for (const prjItem of this.assignedProjects) {
+      const listItem = document.createElement('li');
+      listItem.textContent = prjItem.title;
+      listEl.appendChild(listItem);
+    }
   }
 
   // Render content to the project list template
   private renderContent() {
     const listId = `${this.type}-projects-list`;
-    this.element.querySelector('ul')!.id = listId;
     this.element.querySelector('h2')!.textContent = this.type.toUpperCase() + ' PROJECTS';
+    this.element.querySelector('ul')!.id = listId;
   }
 
   // Render to the Div html
@@ -151,6 +207,7 @@ class ProjectInput {
     if (Array.isArray(userInput)) {
       const [title, desc, people] = userInput;
       console.log(title, desc, people); 
+      projectState.addProject(title, desc, people); // Add project to the state management class
       this.clearInputs();
     }
   }
