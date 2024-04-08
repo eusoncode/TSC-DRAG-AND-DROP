@@ -54,10 +54,22 @@ class ProjectState extends State<Project>{
   addProject(title: string, description: string, numOfPeople:number) {
     const newProject = new Project(Math.random().toString(), title, description, numOfPeople, ProjectStatus.active);
     this.projects.push(newProject);
+    this.updateListeners();
+  };
+
+  moveProject(projectId: string, newStatus: ProjectStatus) {
+    const project = this.projects.find(prj => prj.id === projectId);
+    if (project && project.status !== newStatus) {
+      project.status = newStatus;
+      this.updateListeners();
+    }
+  }
+
+  private updateListeners() {
     for (const listenerFn of this.listeners) {
       listenerFn(this.projects.slice()); // Call listeners when something changes in project list
-    }
-  };
+    }    
+  }
 }
 
 const projectState = ProjectState.getInstance(); // Instantiate the Project state management to be used by other Project classes
@@ -161,7 +173,7 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements 
   // Drag listeners
   @autobind
   dragStartHandler(event: DragEvent) {
-    event.dataTransfer!.setData('text/plain', this.project.title);
+    event.dataTransfer!.setData('text/plain', this.project.id);
     event.dataTransfer!.effectAllowed = 'move';
   }; 
 
@@ -207,8 +219,8 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> implements Drag
 
   @autobind
   dropHandler(event: DragEvent) {
-    console.log(event.dataTransfer!.getData('text/plain'));
-    
+    const prjId = event.dataTransfer!.getData('text/plain');
+    projectState.moveProject(prjId, this.type === 'active' ? ProjectStatus.active : ProjectStatus.finished)
   };
 
   @autobind
