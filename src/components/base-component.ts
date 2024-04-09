@@ -1,4 +1,3 @@
-namespace App {
   // Component Base Class for Project List and Project Input
   export abstract class Component<T extends HTMLElement, U extends HTMLElement> {
     //Define the variables
@@ -32,4 +31,3 @@ namespace App {
     abstract configure(): void; // Trigger the event listener for the submit button
     abstract renderContent(): void; // Render content to the project list template
   }
-}
