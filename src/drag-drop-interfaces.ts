@@ -11,4 +11,3 @@ namespace App {
     dragLeaveHandler(event: DragEvent): void;
   };
 }
-  
