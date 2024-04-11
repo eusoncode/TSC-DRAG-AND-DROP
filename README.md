@@ -8,7 +8,9 @@
 - Add the README.md file.
 
 ### step 2
-- Install node globally: *npm install -g node* (for windows users)
+  - Run npm install to install all devdepencies
+  - Use npm start to the *webpack-dev-server*
+<!-- - Install node globally: *npm install -g node* (for windows users)
 - Install typescript globally: *npm install -g typescript* (for windows users)
 - Initialize node in your project: *npm init -y*
 - Initialize typescript to compile the entire project folder:  *tsc --init*
@@ -21,6 +23,6 @@
 - Create a *src* & *dist* folder
 - Tweak tsconfig file to *outDir* option to and point to the dist folder.
 - Enable the *rootDir* option and point to the src folder
-- Enable the *noEmitOnError*
+- Enable the *noEmitOnError* -->
 
 
